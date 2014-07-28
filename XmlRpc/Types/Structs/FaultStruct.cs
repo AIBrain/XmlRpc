@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
-namespace XmlRpc.Types.Structs
-{
+namespace XmlRpc.Types.Structs {
+
     /// <summary>
     /// Gets the struct returned when a method call has a fault.
     /// </summary>
-    public sealed class FaultStruct : BaseStruct
-    {
+    public sealed class FaultStruct : BaseStruct {
+
         /// <summary>
         /// Backing field for the FaultCode property.
         /// </summary>
@@ -23,16 +20,14 @@ namespace XmlRpc.Types.Structs
         /// <summary>
         /// Gets the fault code.
         /// </summary>
-        public int FaultCode
-        {
+        public int FaultCode {
             get { return faultCode.Value; }
         }
 
         /// <summary>
         /// Gets the description of the fault.
         /// </summary>
-        public string FaultString
-        {
+        public string FaultString {
             get { return faultString.Value; }
         }
 
@@ -40,11 +35,10 @@ namespace XmlRpc.Types.Structs
         /// Generates an XElement storing the information in this struct.
         /// </summary>
         /// <returns>The generated XElement.</returns>
-        public override XElement GenerateXml()
-        {
-            return new XElement(XName.Get(XmlRpcElements.StructElement),
-                makeMemberElement("faultCode", faultCode),
-                makeMemberElement("faultString", faultString));
+        public override XElement GenerateXml() {
+            return new XElement( XName.Get( XmlRpcElements.StructElement ),
+                makeMemberElement( "faultCode", faultCode ),
+                makeMemberElement( "faultString", faultString ) );
         }
 
         /// <summary>
@@ -52,19 +46,17 @@ namespace XmlRpc.Types.Structs
         /// </summary>
         /// <param name="member">The member element storing the information.</param>
         /// <returns>Whether it was successful or not.</returns>
-        protected override bool parseXml(XElement member)
-        {
-            XElement value = getMemberValueElement(member);
+        protected override bool parseXml( XElement member ) {
+            XElement value = getMemberValueElement( member );
 
-            switch (getMemberName(member))
-            {
+            switch ( getMemberName( member ) ) {
                 case "faultCode":
-                    if (!faultCode.ParseXml(value))
+                    if ( !faultCode.ParseXml( value ) )
                         return false;
                     break;
 
                 case "faultString":
-                    if (!faultString.ParseXml(value))
+                    if ( !faultString.ParseXml( value ) )
                         return false;
                     break;
 

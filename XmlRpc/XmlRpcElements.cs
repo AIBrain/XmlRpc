@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace XmlRpc {
 
-namespace XmlRpc
-{
     /// <summary>
     /// Contains constant names for the various elements that make up the XmlRpc messages.
     /// </summary>
-    public static class XmlRpcElements
-    {
+    public static class XmlRpcElements {
         public const string ArrayDataElement = "data";
 
         public const string ArrayElement = "array";

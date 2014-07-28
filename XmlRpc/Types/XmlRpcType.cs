@@ -1,16 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace XmlRpc.Types
-{
+namespace XmlRpc.Types {
+
     /// <summary>
     /// Abstract base class for all XmlRpcTypes.
     /// </summary>
     /// <typeparam name="TValue">The Type of the Value property.</typeparam>
-    public abstract class XmlRpcType<TValue>
-    {
+    public abstract class XmlRpcType<TValue> {
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="ManiaNet.XmlRpc.Types.XmlRpcType"/> class with Value set to the default value for TValue.
+        /// </summary>
+        protected XmlRpcType() {
+            Value = default( TValue );
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="ManiaNet.XmlRpc.Types.XmlRpcType"/> class with the given value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        protected XmlRpcType( TValue value ) {
+            Value = value;
+        }
+
         /// <summary>
         /// The name of value content elements for this XmlRpc type.
         /// </summary>
@@ -22,32 +35,14 @@ namespace XmlRpc.Types
         public TValue Value { get; set; }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="ManiaNet.XmlRpc.Types.XmlRpcType"/> class with Value set to the default value for TValue.
-        /// </summary>
-        protected XmlRpcType()
-        {
-            Value = default(TValue);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="ManiaNet.XmlRpc.Types.XmlRpcType"/> class with the given value.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        protected XmlRpcType(TValue value)
-        {
-            Value = value;
-        }
-
-        /// <summary>
         /// Generates a value-XElement containing the information stored in this XmlRpc type.
         /// <para/>
         /// Default implementation creates an XElement with the ContentElementName and the content from Value, and wraps it in a value element.
         /// </summary>
         /// <returns>The generated Xml.</returns>
-        public virtual XElement GenerateXml()
-        {
-            return new XElement(XName.Get(XmlRpcElements.ValueElement),
-                new XElement(XName.Get(ContentElementName), Value));
+        public virtual XElement GenerateXml() {
+            return new XElement( XName.Get( XmlRpcElements.ValueElement ),
+                new XElement( XName.Get( ContentElementName ), Value ) );
         }
 
         /// <summary>
@@ -55,16 +50,14 @@ namespace XmlRpc.Types
         /// </summary>
         /// <param name="xElement">The element containing the information.</param>
         /// <returns>Whether it was successful or not.</returns>
-        public bool ParseXml(XElement xElement)
-        {
-            if (!isValueElement(xElement) || !hasValueCorrectContent(xElement))
+        public bool ParseXml( XElement xElement ) {
+            if ( !isValueElement( xElement ) || !hasValueCorrectContent( xElement ) )
                 return false;
 
-            return parseXml(xElement);
+            return parseXml( xElement );
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return GenerateXml().ToString();
         }
 
@@ -76,10 +69,9 @@ namespace XmlRpc.Types
         /// </summary>
         /// <param name="xElement">The element to check.</param>
         /// <returns>Whether it has fitting content or not.</returns>
-        protected virtual bool hasValueCorrectContent(XElement xElement)
-        {
-            return (xElement.HasElements && xElement.Elements().Count() == 1 && xElement.Elements().First().Name.LocalName.Equals(ContentElementName))
-                || (!xElement.HasElements && !xElement.IsEmpty);
+        protected virtual bool hasValueCorrectContent( XElement xElement ) {
+            return ( xElement.HasElements && xElement.Elements().Count() == 1 && xElement.Elements().First().Name.LocalName.Equals( ContentElementName ) )
+                || ( !xElement.HasElements && !xElement.IsEmpty );
         }
 
         /// <summary>
@@ -87,9 +79,8 @@ namespace XmlRpc.Types
         /// </summary>
         /// <param name="xElement">The element to check.</param>
         /// <returns>Whether it has the correct local name.</returns>
-        protected bool isValueElement(XElement xElement)
-        {
-            return xElement.Name.LocalName.Equals(XmlRpcElements.ValueElement);
+        protected bool isValueElement( XElement xElement ) {
+            return xElement.Name.LocalName.Equals( XmlRpcElements.ValueElement );
         }
 
         /// <summary>
@@ -99,6 +90,6 @@ namespace XmlRpc.Types
         /// </summary>
         /// <param name="xElement">The element containing the information.</param>
         /// <returns>Whether it was successful or not.</returns>
-        protected abstract bool parseXml(XElement xelement);
+        protected abstract bool parseXml( XElement xelement );
     }
 }

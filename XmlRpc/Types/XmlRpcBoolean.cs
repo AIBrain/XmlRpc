@@ -1,46 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Xml.Linq;
 
-namespace XmlRpc.Types
-{
+namespace XmlRpc.Types {
+
     /// <summary>
     /// Represents an XmlRpcType containing a boolean.
     /// </summary>
-    public sealed class XmlRpcBoolean : XmlRpcType<bool>
-    {
-        /// <summary>
-        /// The name of Elements of this type.
-        /// </summary>
-        public override string ContentElementName
-        {
-            get { return XmlRpcElements.BooleanElement; }
-        }
+    public sealed class XmlRpcBoolean : XmlRpcType<bool> {
 
         /// <summary>
         /// Creates a new instance of the <see cref="XmlRpc.Types.XmlRpcBoolean"/> class with Value set to the default value for bool.
         /// </summary>
         public XmlRpcBoolean()
-            : base()
-        { }
+            : base() { }
 
         /// <summary>
         /// Creates a new instance of the <see cref="XmlRpc.Types.XmlRpcBoolean"/> class with the given value.
         /// </summary>
         /// <param name="value">The bool encapsulated by this.</param>
-        public XmlRpcBoolean(bool value)
-            : base(value)
-        { }
+        public XmlRpcBoolean( bool value )
+            : base( value ) { }
+
+        /// <summary>
+        /// The name of Elements of this type.
+        /// </summary>
+        public override string ContentElementName {
+            get { return XmlRpcElements.BooleanElement; }
+        }
 
         /// <summary>
         /// Generates a value-XElement containing the information stored in this XmlRpc type.
         /// </summary>
         /// <returns>The generated Xml.</returns>
-        public override XElement GenerateXml()
-        {
-            return new XElement(XName.Get(XmlRpcElements.ValueElement),
-                new XElement(XName.Get(ContentElementName), Value ? 1 : 0));
+        public override XElement GenerateXml() {
+            return new XElement( XName.Get( XmlRpcElements.ValueElement ),
+                new XElement( XName.Get( ContentElementName ), Value ? 1 : 0 ) );
         }
 
         /// <summary>
@@ -48,10 +42,8 @@ namespace XmlRpc.Types
         /// </summary>
         /// <param name="xElement">The element containing the information.</param>
         /// <returns>Whether it was successful or not.</returns>
-        protected override bool parseXml(XElement xElement)
-        {
-            switch (xElement.Elements().First().Value.ToLower())
-            {
+        protected override bool parseXml( XElement xElement ) {
+            switch ( xElement.Elements().First().Value.ToLower() ) {
                 case "false":
                 case "0":
                     Value = false;

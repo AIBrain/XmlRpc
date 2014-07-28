@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using XmlRpc.Types;
 
-namespace XmlRpc.Methods
-{
+namespace XmlRpc.Methods {
+
     /// <summary>
     /// Abstract base class for method calls that have fourth parameters and the base classes for those that have more.
     /// </summary>
@@ -25,16 +22,15 @@ namespace XmlRpc.Methods
         where TParam2 : XmlRpcType<TParam2Base>, new()
         where TParam3 : XmlRpcType<TParam3Base>, new()
         where TParam4 : XmlRpcType<TParam4Base>, new()
-        where TReturn : XmlRpcType<TReturnBase>, new()
-    {
+        where TReturn : XmlRpcType<TReturnBase>, new() {
+
         /// <summary>
         /// Field for the fourth parameter.
         /// </summary>
         protected TParam4 param4 = new TParam4();
 
-        protected XmlRpcMethodCall(TParam1Base param1, TParam2Base param2, TParam3Base param3, TParam4Base param4)
-            : base(param1, param2, param3)
-        {
+        protected XmlRpcMethodCall( TParam1Base param1, TParam2Base param2, TParam3Base param3, TParam4Base param4 )
+            : base( param1, param2, param3 ) {
             this.param4.Value = param4;
         }
 
@@ -44,10 +40,9 @@ namespace XmlRpc.Methods
         /// To be overridden by classes that add more parameters to add theirs.
         /// </summary>
         /// <returns>An XElement containing the parameter data.</returns>
-        protected override XElement generateCallParamsXml()
-        {
+        protected override XElement generateCallParamsXml() {
             XElement paramsElement = base.generateCallParamsXml();
-            paramsElement.Add(makeParamElement(param4));
+            paramsElement.Add( makeParamElement( param4 ) );
             return paramsElement;
         }
 
@@ -56,12 +51,11 @@ namespace XmlRpc.Methods
         /// </summary>
         /// <param name="xElement">The params element storing the information.</param>
         /// <returns>Whether it was successful or not.</returns>
-        protected override bool parseCallParamsXml(XElement paramsElement)
-        {
-            if (!parseCallParamXml(paramsElement, param4))
+        protected override bool parseCallParamsXml( XElement paramsElement ) {
+            if ( !parseCallParamXml( paramsElement, param4 ) )
                 return false;
 
-            return base.parseCallParamsXml(paramsElement);
+            return base.parseCallParamsXml( paramsElement );
         }
     }
 }
